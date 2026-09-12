@@ -5481,6 +5481,23 @@ export function ChatRoom({ session, onBack, onDeleted }: ChatRoomProps) {
                     if (showPlusMenu) setShowPlusMenu(false);
                 }}
             >
+                {/* 围观群引导提示条（仅当群内没有用户且处于线上模式时显示） */}
+                {!offlineMode && session.isGroup && session.isSpectator && (
+                    <div className="chat-spectator-guide-banner flex items-center justify-between gap-2 px-3 py-2 mx-3 my-1 rounded-xl bg-[var(--c-input)] text-[var(--c-text)] border border-[var(--c-border)] shrink-0">
+                        <div className="ts-12 leading-snug flex-1 opacity-90">
+                            当前为围观模式，你可以点击右上角让它们开始聊、或手动输入旁白推进
+                        </div>
+                        <button
+                            type="button"
+                            onClick={() => triggerReply()}
+                            disabled={isGenerating}
+                            className="ui-btn ui-btn-primary ts-12 px-2.5 py-1 min-h-0 shrink-0"
+                        >
+                            开始聊
+                        </button>
+                    </div>
+                )}
+
                 {offlineMode && (
                     <div className="chat-offline-body">
                         {offlineTurns.length === 0 && !pendingOfflineUserText ? (
